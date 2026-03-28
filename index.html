@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="overlay display">
+        <div class="modal display">
+            <h4>Add Task</h4>
+            <input type="text" placeholder="Type Here" class="text">
+            <button class="btn">Submit</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h3>Kanban Board</h3>
+            <button class="btn">Add Boards +</button>
+            <button class="btn add-task-btn">Add Task +</button>
+            <button class="btn">Theme</button>
+        </div>
+        <!-- Main boxes -->
+        <div class="wrapper">
+            <!-- To-DoBoard -->
+            <div class="board to-do">
+                <div  class="heading">
+                    <span>To-do</span>
+                </div>
+                
+                <div class="task-box"> 
+                    <div class="task">This is a Demo Task</div>
+                    <button class="cross">X</button> 
+               
+                </div> 
+            </div>
+            <!-- In Progress Board -->
+            <div class="board in-progress">
+                <div  class="heading">
+                    <span>In Progress</span>
+                </div>
+            </div>
+            <!-- Done Board -->
+            <div class="board done">
+                <div  class="heading">
+                    <span>Done</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<script src="script.js" ></script>  
+</body>
+</html>

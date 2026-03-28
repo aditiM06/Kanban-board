@@ -1,0 +1,119 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+:root {
+--main : #F5F5DC;
+--boxes: #dde5b6;
+--padding: 18px;
+--gap:20px;
+}
+
+.container{
+    /* z-index: 10; */
+    margin: 20px;
+    height: 93vh;
+    padding: var(--padding);
+    background-color: var(--main);
+    display: flex;
+    flex-direction:column;
+    gap:var(--gap);
+    
+}
+.navbar{
+    height: 10vh;
+    border-radius: 10px;
+    background-color: var(--boxes);
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    justify-content: space-between;
+    /* border: 2px solid rgb(53, 86, 40); */
+}
+.btn{
+padding:5px
+}
+
+.wrapper{
+    display: flex;
+    height: 100%;
+    gap:6px;
+    padding-top: 20px;
+}
+.board{
+flex:1;
+background-color: var(--boxes);
+height: 100%;
+border: 2px dotted rgb(53, 86, 40);
+display: flex;
+align-items: center;
+flex-direction: column;
+padding: 15px;
+gap:10px
+/* position: relative; */
+}
+
+.task-box{
+    display:flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: white;
+    padding: 10px var(--padding);
+    border: solid 2px rgb(53, 86, 40);
+}
+.task, .cross, .btn{
+font-family: sans-serif;
+}
+.cross{
+    background: none;
+    padding: 0;
+    border: none;
+    cursor:pointer;
+}
+.cross:hover{
+    transform: scale(1.2);
+}
+
+
+
+.overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);   
+    /* to center modal */
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   background-color: #dde5b6;
+   padding: var(--padding);
+   gap:10px;
+   border-radius: 8px;
+
+}
+.modal .btn{
+    width: 100%;
+}
+.modal input{
+    padding: 4px;
+}
+.display{
+display:none
+}

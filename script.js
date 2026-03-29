@@ -40,13 +40,10 @@ function addTask() {
     createTaskElement(newTaskObj);
     
 }
-function taskExists(id) {
-    return document.querySelector(`[data-id="${id}"]`);
-}
 
 function createTaskElement(taskObj) {
     
-    if (taskExists(taskObj.id)) return;
+
     const taskBox = document.createElement("div");
     const task = document.createElement("div");
     const deleteBtn = document.createElement("button");
@@ -57,7 +54,19 @@ function createTaskElement(taskObj) {
 
     task.textContent = taskObj.newTask;
     deleteBtn.textContent = "x";
+    deleteBtn.addEventListener('click', function(){
+        const taskBox = this.parentElement;   // go up to task container
+    const id = taskBox.dataset.id;
 
+    // 1. remove from state
+    tasks = tasks.filter(task => task.id != id);
+
+    // 2. remove from UI
+    taskBox.remove();
+
+    // 3. update storage
+    storeData();
+    });
     taskBox.dataset.id = taskObj.id;
 
     // drag
@@ -80,6 +89,7 @@ function createTaskElement(taskObj) {
 function storeData() {
     localStorage.setItem('tasking', JSON.stringify(tasks));
 }
+
 function dragAndDrop() {
     boards.forEach(board => {
 
@@ -113,10 +123,11 @@ function retrieveData() {
 
     tasks = JSON.parse(stored);
 
-    tasks.forEach(taskObj => {
-        createTaskElement(taskObj);
+    tasks.forEach(e => {
+        createTaskElement(e);
     });
 }
+
 openPopUp();
 dragAndDrop();
 retrieveData();

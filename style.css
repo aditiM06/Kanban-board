@@ -2,43 +2,68 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 html, body {
     height: 100%;
+    width: 100%;
 }
 
 :root {
---main : #F5F5DC;
---boxes: #dde5b6;
---padding: 18px;
---gap:20px;
+  /* ===== Spacing (global, not theme-dependent) ===== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* ===== Light Theme (default) ===== */
+  --primary-bg-color: #fffcf9;
+  --secondary-bg-color: #f3e8d6;
+
+  --primary-text-color: #0f172a;
+  --secondary-text-color: #475569;
+
+  --button-bg-color: #fcfafa; 
+  --button-text-color: #ffffff;
+}
+
+[data-theme="dark"] {
+  --primary-bg-color: #000000;
+  --secondary-bg-color: #1a1a1a;
+
+  --primary-text-color: #f4f4f4;
+  --secondary-text-color: #cccccc;
+
+  --button-bg-color: #1a1a1a;   /* red button in dark mode */
+  --button-text-color: #ffffff;
 }
 
 .container{
-    /* z-index: 10; */
     margin: 20px;
     height: 93vh;
-    padding: var(--padding);
-    background-color: var(--main);
+    padding: var(--spacing-md);
+    background-color: var(--primary-bg-color);
     display: flex;
     flex-direction:column;
-    gap:var(--gap);
+    gap:var(--spacing-lg);
     
 }
 .navbar{
     height: 10vh;
     border-radius: 10px;
-    background-color: var(--boxes);
+    background-color: var(--secondary-bg-color);
     display: flex;
     align-items: center;
-    padding: var(--padding);
+    padding: var(--spacing-md);
     justify-content: space-between;
+    border: 1.6px solid rgb(19, 21, 18);
     /* border: 2px solid rgb(53, 86, 40); */
 }
 .btn{
-padding:5px
+padding:5px;
+background-color: var(--button-bg-color);
 }
 
 .wrapper{
@@ -49,9 +74,9 @@ padding:5px
 }
 .board{
 flex:1;
-background-color: var(--boxes);
+background-color: var(--secondary-bg-color);
 height: 100%;
-border: 2px dotted rgb(53, 86, 40);
+border: 1.6px solid rgb(27, 30, 25);
 display: flex;
 align-items: center;
 flex-direction: column;
@@ -65,7 +90,7 @@ gap:10px
     justify-content: space-between;
     width: 100%;
     background-color: white;
-    padding: 10px var(--padding);
+    padding: 10px var(--spacing-md);
     border: solid 2px rgb(53, 86, 40);
 }
 .task, .cross, .btn{
@@ -103,7 +128,7 @@ font-family: sans-serif;
     align-items: center;
     justify-content: center;
    background-color: #dde5b6;
-   padding: var(--padding);
+   padding: var(--spacing-md);
    gap:10px;
    border-radius: 8px;
 

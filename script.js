@@ -1,122 +1,130 @@
-    let tasks = [];
+
+//DOM ref
+const toDo = document.querySelector('.to-do');
+const inProgress = document.querySelector('.in-progress');
+const done = document.querySelector('.done');
+const text = document.querySelector('.text');
+const addTaskBtn = document.querySelector('.add-task-btn');
+const overlay = document.querySelector('.overlay');
+const modal = document.querySelector('.modal');
+
+
+// State
+let tasks = [];
+let dragged = null;
+const boards = [toDo, inProgress, done];
+
+function openPopUp() {
+    const submitBtn = document.querySelector('.modal .btn');
+    addTaskBtn.addEventListener('click', () => {
+        overlay.classList.remove("display");
+        modal.classList.remove("display");
+    });
+    submitBtn.addEventListener('click', () => {
+        addTask();
+        modal.classList.add('display');
+        overlay.classList.add('display');
+    });
+}
+
+function addTask() {
+    if (text.value.trim() === "") return;
+    const newTaskObj = {
+        id: Date.now(),
+        newTask: text.value,
+        status: "toDo"
+    };
+    tasks.push(newTaskObj);
+    text.value = "";
+    storeData();
+    createTaskElement(newTaskObj);
     
-    let dragged = null;
+}
+function taskExists(id) {
+    return document.querySelector(`[data-id="${id}"]`);
+}
 
-// //DOM refs
-    let toDo = document.querySelector('.to-do');
-    let inProgress = document.querySelector('.in-progress');
-    let done = document.querySelector('.done');
-
-    let addTaskBtn = document.querySelector('.add-task-btn');
-    let overlay = document.querySelector('.overlay');
-    let modal = document.querySelector('.modal');
-    let text = document.querySelector('.text');
+function createTaskElement(taskObj) {
     
+    if (taskExists(taskObj.id)) return;
+    const taskBox = document.createElement("div");
+    const task = document.createElement("div");
+    const deleteBtn = document.createElement("button");
 
-
-    function addTask(){
-        let newTask ={
-            id: Date.now(),
-            new:"",
-            status:""
-        };
-        
-      // trims extra space
-        if(text.value.trim() === "") return; 
-        let taskBox = document.createElement("div");
-        let task = document.createElement("div");
-        let deleteBtn = document.createElement('button');
-        
-    
     taskBox.classList.add('task-box');
-    // draggable is an html attribute.
-    //taskBox.setAttribute("draggable", "true");
+    task.classList.add("task");
+    deleteBtn.classList.add("cross");
+
+    task.textContent = taskObj.newTask;
+    deleteBtn.textContent = "x";
+
+    taskBox.dataset.id = taskObj.id;
+
+    // drag
     taskBox.draggable = true;
     taskBox.addEventListener("dragstart", () => {
         dragged = taskBox;
     });
-    task.classList.add("task");
-    deleteBtn.classList.add("cross");
-    deleteBtn.textContent = "x" ;
-    // deleteBtn.addEventListener("click",()=>{
-        //  taskBox.remove();
-    // });
-    
-    task.textContent = text.value ;
-    //saving in the new object.
-    taskBox.dataset.id = newTask.id;
-    newTask.new= text.value;
-    newTask.status = "toDo";
-    console.log(text.value);
-   
+
+    // append
     taskBox.appendChild(task);
     taskBox.appendChild(deleteBtn);
-    toDo.appendChild(taskBox);
-     //saving in the array.
-    tasks.push(newTask);
-    storeData();
-    
 
-    console.log(tasks);
-    console.log(tasks[0].new);
-    
+    // place correctly
+    if (taskObj.status === "toDo") toDo.appendChild(taskBox);
+    else if (taskObj.status === "inProgress") inProgress.appendChild(taskBox);
+    else if (taskObj.status === "done") done.appendChild(taskBox);
 }
 
-  function openPopUp(){
-    let submitBtn = document.querySelector('.modal .btn');
-        addTaskBtn.addEventListener('click',()=>{
-            overlay.classList.remove("display");
-            modal.classList.remove("display");          
-        })
 
-       submitBtn.addEventListener('click',()=>{
-           addTask();
-           modal.classList.add('display');
-           overlay.classList.add('display');
-           text.value ="";
-       }) 
-      }
-
-     openPopUp();
-
-     function dragAndDrop(){
-        
-    // study it
-    let boards = [toDo, inProgress, done];
+function storeData() {
+    localStorage.setItem('tasking', JSON.stringify(tasks));
+}
+function dragAndDrop() {
     boards.forEach(board => {
+
         board.addEventListener("dragover", (e) => {
             e.preventDefault();
         });
 
-        board.addEventListener("drop", (h) => {
-            if (dragged) {
-                board.appendChild(dragged);
-                let newStatus = board.classList[1]; // where it is dropped
-                let taskText = dragged.firstChild.innerText;
-                // console.log(h.target.classList[1]);
-                let id = dragged.dataset.id;
-                tasks.forEach(obj => {
-            if (obj.id === Number(id)) {
-                obj.status = newStatus;
-            }
+        board.addEventListener("drop", () => {
+            if (!dragged) return;
+
+            board.appendChild(dragged);
+
+            const newStatus = board.dataset.status;
+            const id = dragged.dataset.id;
+
+            tasks.forEach(task => {
+                if (task.id === Number(id)) {
+                    task.status = newStatus;
+                }
+            });
+
             storeData();
-        });
-                // console.log(dragged.firstChild.innerText);
-                console.dir(dragged);
-                dragged = null;
-            }
+            dragged = null;
         });
     });
-   
-    
-}
+} 
 
+function retrieveData() {
+    const stored = localStorage.getItem('tasking');
+    if (!stored) return;
+
+    tasks = JSON.parse(stored);
+
+    tasks.forEach(taskObj => {
+        createTaskElement(taskObj);
+    });
+}
+openPopUp();
 dragAndDrop();
-function storeData(){
-let tasksStrings = JSON.stringify(tasks) ;
-localStorage.setItem('tasking',tasksStrings);
-}
+retrieveData();
 
+
+
+
+ 
 
 
 
